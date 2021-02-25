@@ -95,8 +95,8 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>POST</strong></td>
       <td>/session/create</td>
       <td align="center">✅</td>
-      <td><a href="#targetlengthbody">TargetLengthBody</a></td>
-      <td><a href="#messageresponse">MessageResponse</a></td>
+      <td><a href="#sessioncreatebody">SessionCreateBody</a></td>
+      <td><a href="#sessionidresponse">SessionIdResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Creates a session with the current authenticated user as the host.</td>
@@ -115,7 +115,7 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>POST</strong></td>
       <td>/session/update</td>
       <td align="center">✅</td>
-      <td><a href="#targetlengthbody">TargetLengthBody</a></td>
+      <td><a href="#sessionupdatebody">SessionUpdateBody</a></td>
       <td><a href="#messageresponse">MessageResponse</a></td>
     </tr>
     <tr>
@@ -143,6 +143,14 @@ interface ErrorResponse {
 ```ts
 interface MessageResponse {
   message: string;
+}
+```
+
+### SessionIdResponse
+
+```ts
+interface SessionIdResponse {
+  id: string;
 }
 ```
 
@@ -197,11 +205,11 @@ interface DeleteContactBody {
 }
 ```
 
-### TargetLengthBody
+### SessionCreateBody
 
 ```ts
-interface TargetLengthBody {
-  /** The total duration of a video file. */
+interface SessionCreateBody {
+  /** The total duration of the selected video file. */
   targetLength: number;
 }
 ```
@@ -211,9 +219,21 @@ interface TargetLengthBody {
 ```ts
 interface SessionSignalBody {
   /** A session signal to send to all members. */
-  signal: 'start'|'pause'|'resume'|'stop'|`time-${number}`;
+  signal: 'start'|'pause'|'resume'|'stop'|`time:${number}`|'end';
+  /** The session ID. */
+  session: string;
 }
 ```
+
+### SessionUpdateBody
+
+```ts
+interface SessionUpdateBody {
+  /** The total duration of the selected video file. */
+  targetLength: number;
+  /** The session ID. */
+  session: string;
+}
 
 # Setup
 

@@ -21,6 +21,7 @@
     "paths": {
       "@ash-player-server/service/*": ["./services/*.service"],
       "@ash-player-server/router/*": ["./routers/*.router"],
+      "@ash-player-server/plugin/*": ["./plugins/*.plugin"],
       "@ash-player-server/config": ["./server.config"],
       "@ash-player-server/firebase-cert": ["./firebase-cert.json"],
       "@ash-player-server/shared/*": ["./shared/*"]

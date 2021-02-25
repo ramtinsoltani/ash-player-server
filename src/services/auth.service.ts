@@ -32,6 +32,21 @@ export class AuthService implements OnInit {
 
   }
 
+  public async deleteUser(token: DecodedToken) {
+
+    try {
+
+      await admin.auth().deleteUser(token.uid);
+
+    }
+    catch (error) {
+
+      throw new ServerError('An internal error has occurred!', 500, error.code);
+
+    }
+
+  }
+
 }
 
 export interface DecodedToken {
