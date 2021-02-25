@@ -5,6 +5,8 @@
     "tests": false,
     "docs": false,
     "flat": false,
-    "assets": []
+    "assets": [
+      "Procfile"
+    ]
   }
 }

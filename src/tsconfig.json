@@ -19,8 +19,11 @@
       "es2018"
     ],
     "paths": {
-      "@ash-player-server/services/*": ["./services/*.service"],
-      "@ash-player-server/config": ["./server.config.json"]
+      "@ash-player-server/service/*": ["./services/*.service"],
+      "@ash-player-server/router/*": ["./routers/*.router"],
+      "@ash-player-server/config": ["./server.config"],
+      "@ash-player-server/firebase-cert": ["./firebase-cert.json"],
+      "@ash-player-server/shared/*": ["./shared/*"]
     }
   }
 }

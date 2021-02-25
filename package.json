@@ -1,14 +1,19 @@
 {
   "name": "ash-player-server",
-  "version": "1.0.0",
+  "version": "0.0.0",
+  "description": "Server for Ash Player",
   "main": "dist/main.js",
+  "private": true,
+  "license": "MIT",
+  "author": "Ramtin Soltani <ramtinsoltani93@gmail.com",
   "scripts": {
     "test": "echo \"Please use 'sg test' to run the tests\" && exit 1"
   },
   "dependencies": {
     "@singular/core": "^1.0.0-beta.2",
     "@singular/pipes": "^1.0.0-beta.1",
-    "@singular/validators": "^1.0.0-beta.1"
+    "@singular/validators": "^1.0.0-beta.1",
+    "firebase-admin": "^9.5.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.22",
