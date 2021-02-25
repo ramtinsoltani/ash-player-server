@@ -234,6 +234,7 @@ interface SessionUpdateBody {
   /** The session ID. */
   session: string;
 }
+```
 
 # Setup
 
@@ -243,13 +244,33 @@ interface SessionUpdateBody {
 # Launching
 
 ```bash
-sg serve
+npm start
 ```
 
 # Building
 
 ```bash
-sg build -m -s -o build
+npm run build
+```
+
+# Tests
+
+The following steps are necessary in order to setup tests:
+  1. Install `firebase-tools` globally (`npm install -g firebase-tools`)
+  2. Create file `.firebaserc` with the following content (replace `FIREBASE_PROJECT_ID` with your firebase project id):
+      ```json
+      {
+        "projects": {
+          "default": "FIREBASE_PROJECT_ID"
+        }
+      }
+      ```
+  3. Save a copy of your Firebase web credentials (same as in [AshPlayer Client](https://github.com/ramtinsoltani/ash-player)) at `/test/firebase-cert.json`
+
+Once done, the following command will run build the server, run Firebase emulators, and start the tests:
+
+```bash
+npm test
 ```
 
 # Hosting

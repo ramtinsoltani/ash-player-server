@@ -1,4 +1,8 @@
 node_modules
 dist
-firebase-cert.json
 build
+firebase-cert.json
+.firebase/
+.firebaserc
+*.log*
+/test/*.js
