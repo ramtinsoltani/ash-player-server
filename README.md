@@ -1,6 +1,20 @@
-# Ash Player Server
+# AshPlayer Server
 
-This is a server for the [Ash Player](https://github.com/ramtinsoltani/ash-player), made with [Singular](https://github.com/singularframework) which acts as the middle-man between Firestore database and the client to perform all write operations with proper validation (since Firestore security rules are currently limited and therefore encourage bad data structure and/or weak security).
+This is the backend for [AshPlayer](https://github.com/ramtinsoltani/ash-player) social video player, made with [Singular](https://github.com/singularframework).
+
+This server acts as the middle-man between Firestore database and the client to perform all write operations with proper validation (since Firestore security rules are currently limited and therefore encourage bad data structure and/or weak security).
+
+# Index
+
+  - [Authentication](#authentication)
+  - [Endpoints](#endpoints)
+    - [Response Models](#response-models)
+    - [Body Models](#body-models)
+  - [Setup](#setup)
+  - [Launching](#launching)
+  - [Building](#building)
+  - [Tests](#tests)
+  - [Hosting](#hosting)
 
 # Authentication
 
@@ -267,10 +281,26 @@ The following steps are necessary in order to setup tests:
       ```
   3. Save a copy of your Firebase web credentials (same as in [AshPlayer Client](https://github.com/ramtinsoltani/ash-player)) at `/test/firebase-cert.json`
 
-Once done, the following command will run build the server, run Firebase emulators, and start the tests:
+---
+
+Once done, the following command will build the server, run Firebase emulators, and start the tests:
 
 ```bash
 npm test
+```
+
+---
+
+Emulators can be manually launched (and kept alive after the tests for manual checking) by running:
+
+```bash
+firebase emulators:start
+```
+
+and then have tests run in a separate terminal without launching their own emulators:
+
+```bash
+npm test -- --manual-emulators
 ```
 
 # Hosting
