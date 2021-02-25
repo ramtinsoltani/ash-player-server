@@ -25,8 +25,8 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>POST</strong></td>
       <td>/user/register</td>
       <td align="center">✅</td>
-      <td><a href="#registeruserbody">RegisterUserBody</a></td>
-      <td><a href="#messageresponse">MessageResponse</a></td>
+      <td align="center"><a href="#registeruserbody">RegisterUserBody</a></td>
+      <td align="center"><a href="#messageresponse">MessageResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Completes a signup request by registering the authenticated user under the "users" collection.</td>
@@ -35,8 +35,8 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>POST</strong></td>
       <td>/user/status</td>
       <td align="center">✅</td>
-      <td>NA</td>
-      <td><a href="#messageresponse">MessageResponse</a></td>
+      <td align="center">NA</td>
+      <td align="center"><a href="#messageresponse">MessageResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Updates the "lastTimeOnline" field on the user document for the authenticated user.</td>
@@ -45,8 +45,8 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>POST</strong></td>
       <td>/user/invite</td>
       <td align="center">✅</td>
-      <td><a href="#inviteuserbody">InviteUserBody</a></td>
-      <td><a href="#messageresponse">MessageResponse</a></td>
+      <td align="center"><a href="#inviteuserbody">InviteUserBody</a></td>
+      <td align="center"><a href="#messageresponse">MessageResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Sends an invitation to a registered user by creating a document under "invitations" collection.<br>Keep in mind that the authenticated user must be the host of the session the invitation's for.</td>
@@ -55,8 +55,8 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>POST</strong></td>
       <td>/user/invite/accept</td>
       <td align="center">✅</td>
-      <td><a href="#acceptinvitebody">AcceptInviteBody</a></td>
-      <td><a href="#messageresponse">MessageResponse</a></td>
+      <td align="center"><a href="#acceptinvitebody">AcceptInviteBody</a></td>
+      <td align="center"><a href="#messageresponse">MessageResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Accepts an invitation by deleting the document and adding the authenticated user under the "members" field on the corresponding document in "sessions" collection.<br>Keep in mind that the invitation should belong to the authenticated user based on the "to" field.</td>
@@ -65,8 +65,8 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>DELETE</strong></td>
       <td>/user</td>
       <td align="center">✅</td>
-      <td>NA</td>
-      <td><a href="#messageresponse">MessageResponse</a></td>
+      <td align="center">NA</td>
+      <td align="center"><a href="#messageresponse">MessageResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Deletes the current authenticated user from the app.<br><strong>DANGER: There is no turning back once this endpoint is called.</strong></td>
@@ -75,8 +75,8 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>POST</strong></td>
       <td>/db/contacts</td>
       <td align="center">✅</td>
-      <td><a href="#addcontactbody">AddContactBody</a></td>
-      <td><a href="#messageresponse">MessageResponse</a></td>
+      <td align="center"><a href="#addcontactbody">AddContactBody</a></td>
+      <td align="center"><a href="#messageresponse">MessageResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Adds a registered user into the contacts list of the authenticated user by email.</td>
@@ -85,8 +85,8 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>DELETE</strong></td>
       <td>/db/contacts</td>
       <td align="center">✅</td>
-      <td><a href="#deletecontactbody">DeleteContactBody</a></td>
-      <td><a href="#messageresponse">MessageResponse</a></td>
+      <td align="center"><a href="#deletecontactbody">DeleteContactBody</a></td>
+      <td align="center"><a href="#messageresponse">MessageResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Deletes a contact from the authenticated user's contacts list by UID.</td>
@@ -95,8 +95,8 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>POST</strong></td>
       <td>/session/create</td>
       <td align="center">✅</td>
-      <td><a href="#sessioncreatebody">SessionCreateBody</a></td>
-      <td><a href="#sessionidresponse">SessionIdResponse</a></td>
+      <td align="center"><a href="#sessioncreatebody">SessionCreateBody</a></td>
+      <td align="center"><a href="#sessionidresponse">SessionIdResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Creates a session with the current authenticated user as the host.</td>
@@ -105,8 +105,8 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>POST</strong></td>
       <td>/session/signal</td>
       <td align="center">✅</td>
-      <td><a href="#sessionsignalbody">SessionSignalBody</a></td>
-      <td><a href="#messageresponse">MessageResponse</a></td>
+      <td align="center"><a href="#sessionsignalbody">SessionSignalBody</a></td>
+      <td align="center"><a href="#messageresponse">MessageResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Sends a signal to all members in the session.</td>
@@ -115,8 +115,8 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td align="right"><strong>POST</strong></td>
       <td>/session/update</td>
       <td align="center">✅</td>
-      <td><a href="#sessionupdatebody">SessionUpdateBody</a></td>
-      <td><a href="#messageresponse">MessageResponse</a></td>
+      <td align="center"><a href="#sessionupdatebody">SessionUpdateBody</a></td>
+      <td align="center"><a href="#messageresponse">MessageResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Updates the length of the selected video file in the session for the current authenticated user (as a member of the session only.)</td>
