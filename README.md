@@ -76,6 +76,16 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td colspan="5">Accepts an invitation by deleting the document and adding the authenticated user under the "members" field on the corresponding document in "sessions" collection.<br>Keep in mind that the invitation should belong to the authenticated user based on the "to" field.</td>
     </tr>
     <tr>
+      <td align="right"><strong>POST</strong></td>
+      <td>/user/invite/reject</td>
+      <td align="center">✅</td>
+      <td align="center"><a href="#rejectinvitebody">RejectInviteBody</a></td>
+      <td align="center"><a href="#messageresponse">MessageResponse</a></td>
+    </tr>
+    <tr>
+      <td colspan="5">Rejects an invitation by deleting the document.<br>Keep in mind that the invitation should belong to the authenticated user based on the "to" field.</td>
+    </tr>
+    <tr>
       <td align="right"><strong>DELETE</strong></td>
       <td>/user</td>
       <td align="center">✅</td>
@@ -204,6 +214,15 @@ interface InviteUserBody {
 
 ```ts
 interface AcceptInviteBody {
+  /** The invitation ID. */
+  id: string;
+}
+```
+
+### RejectInviteBody
+
+```ts
+interface RejectInviteBody {
   /** The invitation ID. */
   id: string;
 }

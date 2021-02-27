@@ -1,7 +1,7 @@
 import { Service, OnInit } from '@singular/core';
 import admin from 'firebase-admin';
 import { DecodedToken } from '@ash-player-server/service/auth';
-import { InviteUserRequest, AcceptInviteRequest } from '@ash-player-server/router/users';
+import { InviteUserRequest, AcceptInviteRequest, RejectInviteRequest } from '@ash-player-server/router/users';
 import { SessionUpdateRequest, SessionSignalRequest } from '@ash-player-server/router/sessions';
 
 @Service({
@@ -52,7 +52,13 @@ export class FirestoreService implements OnInit {
 
   }
 
-  public static async invitationValidator(req: AcceptInviteRequest): Promise<boolean|Error> {
+  public static invitationValidatorWithoutSession(req: RejectInviteRequest): Promise<boolean|Error> {
+
+    return FirestoreService.invitationValidator(<AcceptInviteRequest>req, true);
+
+  }
+
+  public static async invitationValidator(req: AcceptInviteRequest, skipSession?: boolean): Promise<boolean|Error> {
 
     try {
 
@@ -66,6 +72,8 @@ export class FirestoreService implements OnInit {
 
       req.assets.invitation = <any>invitation.data();
       req.assets.invitation.id = req.body.id;
+
+      if ( skipSession ) return true;
 
       const session = await admin.firestore().collection('sessions').doc(invitation.data().session).get();
 
@@ -237,6 +245,21 @@ export class FirestoreService implements OnInit {
     catch (error) {
 
       throw new ServerError('Could not accept invitation!', 500, error.code);
+
+    }
+
+  }
+
+  public async rejectInvite(assets: RejectInviteRequest['assets']) {
+
+    try {
+
+      await this.invitations.doc(assets.invitation.id).delete();
+
+    }
+    catch (error) {
+
+      throw new ServerError('Could not reject invitation!', 500, error.code);
 
     }
 

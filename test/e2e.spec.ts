@@ -149,7 +149,7 @@ describe('E2E', function() {
       await backend.post('user/invite', {
         headers: { 'Authorization': `Bearer ${token}` },
         json: { session: sessionId, user: uid }
-      })
+      });
 
     }
 
@@ -158,7 +158,7 @@ describe('E2E', function() {
   it('should accept all invitations and update session', async function() {
 
     // Login as ashkan
-    const ashkanToken = await login('ashkan');
+    let ashkanToken = await login('ashkan');
 
     // Get all invitations
     let invitations = await firebase.firestore().collection('invitations')
@@ -166,6 +166,34 @@ describe('E2E', function() {
     .get();
 
     expect(invitations.size).to.equal(1);
+
+    // Reject invitation
+    await backend.post('user/invite/reject', {
+      headers: { 'Authorization': `Bearer ${ashkanToken}` },
+      json: { id: invitations.docs[0].id }
+    });
+
+    invitations = await firebase.firestore().collection('invitations')
+    .where('to', '==', firebase.auth().currentUser.uid)
+    .get();
+
+    expect(invitations.size).to.equal(0);
+
+    // Re-invite
+    const ashkanUid = firebase.auth().currentUser.uid;
+    const ramtinToken = await login('ramtin');
+
+    await backend.post('user/invite', {
+      headers: { 'Authorization': `Bearer ${ramtinToken}` },
+      json: { session: sessionId, user: ashkanUid }
+    });
+
+    // Login as ashkan
+    ashkanToken = await login('ashkan');
+
+    invitations = await firebase.firestore().collection('invitations')
+    .where('to', '==', firebase.auth().currentUser.uid)
+    .get();
 
     // Accept invitation
     await backend.post('user/invite/accept', {

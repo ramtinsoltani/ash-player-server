@@ -43,8 +43,18 @@ import { SessionDocument, InvitationDocument } from '@ash-player-server/shared/r
       validate.body({
         id: should.be.a.non.empty.string
       }),
-      // Loads the invitation document at req.assets.invitation
+      // Loads the invitation document at req.assets.invitation and session document at req.assets.session
       validate.custom(FirestoreService.invitationValidator)
+    ]),
+    route.POST('/user/invite/reject', 'rejectInvite', [
+      validate.headers({
+        'content-type': should.be.a.string.that.matches(/^application\/json/)
+      }),
+      validate.body({
+        id: should.be.a.non.empty.string
+      }),
+      // Loads the invitation document at req.assets.invitation
+      validate.custom(FirestoreService.invitationValidatorWithoutSession)
     ]),
     route.DELETE('/user', 'deleteUser')
   ]
@@ -89,6 +99,13 @@ export class UsersRouter implements OnInjection {
 
   }
 
+  async rejectInvite(req: RejectInviteRequest, res: Response) {
+
+    await this.firestore.rejectInvite(req.assets);
+    await res.respond(new MessageResponse('Invitation was rejected.'));
+
+  }
+
   async deleteUser(req: SecureRequest, res: Response) {
 
     await this.auth.deleteUser(req.auth);
@@ -120,6 +137,15 @@ export interface InviteUserRequest extends SecureRequest {
 }
 
 export interface AcceptInviteRequest extends SecureRequest<SessionDocument & InvitationDocument> {
+
+  body: {
+    /** The invitation ID. */
+    id: string;
+  };
+
+}
+
+export interface RejectInviteRequest extends SecureRequest<InvitationDocument> {
 
   body: {
     /** The invitation ID. */
