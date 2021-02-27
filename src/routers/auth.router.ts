@@ -56,7 +56,7 @@ export class AuthRouter implements OnInjection {
     log.debug('registeredUserGuard::Checking user registration');
 
     // Ignore endpoint POST /user/register
-    if ( req.method === 'POST' && new URL(req.originalUrl).pathname === '/user/register' ) {
+    if ( req.method === 'POST' && new URL('http://localhost' + req.originalUrl).pathname === '/user/register' ) {
 
       log.debug('registeredUserGuard::Skipped');
       return next();

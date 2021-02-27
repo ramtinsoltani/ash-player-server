@@ -1,4 +1,4 @@
-import { Service } from '@singular/core';
+import { Service, OnInit } from '@singular/core';
 import admin from 'firebase-admin';
 import { DecodedToken } from '@ash-player-server/service/auth';
 import { InviteUserRequest, AcceptInviteRequest } from '@ash-player-server/router/users';
@@ -7,7 +7,7 @@ import { SessionUpdateRequest, SessionSignalRequest } from '@ash-player-server/r
 @Service({
   name: 'firestore'
 })
-export class FirestoreService {
+export class FirestoreService implements OnInit {
 
   public static async uidValidator(uid: string): Promise<boolean|Error> {
 
@@ -111,10 +111,45 @@ export class FirestoreService {
 
   }
 
-  private users = admin.firestore().collection('users');
-  private contacts = admin.firestore().collection('contacts');
-  private invitations = admin.firestore().collection('invitations');
-  private sessions = admin.firestore().collection('sessions');
+  public static async sessionSignalValidator(req: SessionSignalRequest): Promise<boolean|Error> {
+
+    try {
+
+      // End signal is allowed
+      if ( req.body.signal === SessionStaticSignal.End ) return true;
+
+      // Other signals require all members to be ready
+      for ( const uid in req.assets.session.members ) {
+
+        if ( req.assets.session.members[uid].status !== SessionMemberStatus.Ready )
+          return new Error('Session members must be ready!');
+
+      }
+
+    }
+    catch (error) {
+
+      return new Error('An internal error has occurred!');
+
+    }
+
+    return true;
+
+  }
+
+  private users: admin.firestore.CollectionReference<admin.firestore.DocumentData>;
+  private contacts: admin.firestore.CollectionReference<admin.firestore.DocumentData>;
+  private invitations: admin.firestore.CollectionReference<admin.firestore.DocumentData>;
+  private sessions: admin.firestore.CollectionReference<admin.firestore.DocumentData>;
+
+  onInit(): void {
+
+    this.users = admin.firestore().collection('users');
+    this.contacts = admin.firestore().collection('contacts');
+    this.invitations = admin.firestore().collection('invitations');
+    this.sessions = admin.firestore().collection('sessions');
+
+  }
 
   public async registerUser(token: DecodedToken, name: string) {
 
@@ -253,15 +288,27 @@ export class FirestoreService {
 
       if ( ! contacts.size ) throw new ServerError('Email is not registered as a user!');
 
-      // Add contact into list
-      await this.contacts.doc(token.uid).update({
-        [contacts.docs[0].id]: true
-      });
+      // Create contact list if it doesn't exist
+      if ( ! (await this.contacts.doc(token.uid).get()).exists ) {
+
+        await this.contacts.doc(token.uid).create({
+          [contacts.docs[0].id]: true
+        });
+
+      }
+      // Update contact list otherwise
+      else {
+
+        await this.contacts.doc(token.uid).update({
+          [contacts.docs[0].id]: true
+        });
+
+      }
 
     }
     catch (error) {
 
-      throw new ServerError('An internal error has occurred!', 500, error.code);
+      throw new ServerError('Could not add contact!', 500, error.code);
 
     }
 
@@ -272,13 +319,13 @@ export class FirestoreService {
     try {
 
       await this.contacts.doc(token.uid).update({
-        [uid]: null
+        [uid]: admin.firestore.FieldValue.delete()
       });
 
     }
     catch (error) {
 
-      throw new ServerError('An internal error has occurred!', 500, error.code);
+      throw new ServerError('Could not delete contact!', 500, error.code);
 
     }
 
@@ -310,12 +357,16 @@ export class FirestoreService {
 
     try {
 
+      const status = assets.session.targetLength === targetLength ? SessionMemberStatus.Ready : SessionMemberStatus.Mismatch;
+
       await this.sessions.doc(assets.session.id).update({
         [`members.${token.uid}`]: {
           targetLength,
-          status: assets.session.targetLength === targetLength ? SessionMemberStatus.Ready : SessionMemberStatus.Mismatch
+          status
         }
       });
+
+      return status;
 
     }
     catch (error) {
@@ -331,6 +382,8 @@ export class FirestoreService {
     try {
 
       await this.sessions.doc(assets.session.id).update({ signal });
+
+      if ( signal === 'end' ) await this.sessions.doc(assets.session.id).delete();
 
     }
     catch (error) {

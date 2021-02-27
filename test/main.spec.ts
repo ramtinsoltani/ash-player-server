@@ -1,3 +1,4 @@
+import 'source-map-support/register';
 import { spawn, ChildProcess } from 'child_process';
 import path from 'path';
 import kill from 'tree-kill';
@@ -62,6 +63,8 @@ before('Configuring Firebase and server', async function() {
 });
 
 before('Running the server', async function() {
+
+  this.timeout(10000);
 
   server = spawn('node', ['main.js'], {
     windowsHide: true,

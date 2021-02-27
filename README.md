@@ -130,7 +130,7 @@ If any of the following requests fail, the response will always be an [ErrorResp
       <td>/session/update</td>
       <td align="center">✅</td>
       <td align="center"><a href="#sessionupdatebody">SessionUpdateBody</a></td>
-      <td align="center"><a href="#messageresponse">MessageResponse</a></td>
+      <td align="center"><a href="#sessionmemberstatusresponse">SessionMemberStatusResponse</a></td>
     </tr>
     <tr>
       <td colspan="5">Updates the length of the selected video file in the session for the current authenticated user (as a member of the session only.)</td>
@@ -165,6 +165,14 @@ interface MessageResponse {
 ```ts
 interface SessionIdResponse {
   id: string;
+}
+```
+
+### SessionMemberStatusResponse
+
+```ts
+interface SessionMemberStatusResponse {
+  status: 'ready'|'mismatch';
 }
 ```
 

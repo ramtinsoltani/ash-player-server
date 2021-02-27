@@ -41,7 +41,13 @@ service cloud.firestore {
 
       allow get: if
         isRegistered() &&
-        (resource.data.host == request.auth.uid || resource.data.members.keys().hasAny([request.auth.uid]));
+        // If document is deleted (seems to be a bug in Firestore emulator only)
+        ( resource == null ||
+        // If user is host
+        resource.data.host == request.auth.uid ||
+        // If user is a member and has status 'ready'
+        (resource.data.members.keys().hasAny([request.auth.uid]) &&
+        resource.data.members[request.auth.uid].status == 'ready'));
 
     }
 

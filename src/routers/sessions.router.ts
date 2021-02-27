@@ -9,7 +9,7 @@ import {
 import { should, is, does } from '@singular/validators';
 import { FirestoreService, SessionStaticSignal } from '@ash-player-server/service/firestore';
 import { SecureRequest } from '@ash-player-server/router/auth';
-import { MessageResponse, SessionIdResponse } from '@ash-player-server/shared/responses';
+import { MessageResponse, SessionIdResponse, SessionMemberStatusResponse } from '@ash-player-server/shared/responses';
 import { SessionDocument } from '@ash-player-server/shared/request-asset-models';
 
 @Router({
@@ -46,7 +46,8 @@ import { SessionDocument } from '@ash-player-server/shared/request-asset-models'
         session: should.be.a.non.empty.string
       }),
       // Loads the session document at req.assets.session
-      validate.custom(FirestoreService.sessionHostValidator)
+      validate.custom(FirestoreService.sessionHostValidator),
+      validate.custom(FirestoreService.sessionSignalValidator)
     ])
   ]
 })
@@ -69,8 +70,8 @@ export class SessionsRouter implements OnInjection {
 
   async updateSession(req: SessionUpdateRequest, res: Response) {
 
-    await this.firestore.updateSession(req.auth, req.body.targetLength, req.assets);
-    await res.respond(new MessageResponse('Session was successfully updated.'));
+    const status = await this.firestore.updateSession(req.auth, req.body.targetLength, req.assets);
+    await res.respond(new SessionMemberStatusResponse(status));
 
   }
 
