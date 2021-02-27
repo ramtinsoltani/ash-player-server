@@ -1,6 +1,6 @@
 {
   "name": "ash-player-server",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Server for Ash Player",
   "main": "dist/main.js",
   "private": true,
