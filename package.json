@@ -12,9 +12,9 @@
     "test": "sg build && npx tsc --project test/tsconfig.json && npx mocha test/main.spec.js"
   },
   "dependencies": {
-    "@singular/core": "^1.0.0-beta.2",
-    "@singular/pipes": "^1.0.0-beta.1",
-    "@singular/validators": "^1.0.0-beta.1",
+    "@singular/core": "^1.0.0-beta.5",
+    "@singular/pipes": "^1.0.0-beta.2",
+    "@singular/validators": "^1.0.0-beta.3",
     "firebase-admin": "^9.5.0"
   },
   "devDependencies": {

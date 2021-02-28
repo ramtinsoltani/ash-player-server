@@ -7,7 +7,8 @@ export const profiles: { [name: string]: ServerConfig } = {
     logRequestHeaders: false,
     logResponseErrors: true,
     writeLogsToFile: false,
-    consoleLogLevels: 'all'
+    consoleLogLevels: 'all',
+    enableCors: true
   }
 
 };

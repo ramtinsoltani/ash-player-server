@@ -16,6 +16,14 @@ import { Request } from '@ash-player-server/plugin/request-assets';
 @Router({
   name: 'auth',
   routes: [
+    route.OPTIONS('*', 'corsHandler', [], {
+      origin: true,
+      methods: ['GET', 'POST', 'DELETE']
+    }),
+    route.GLOBAL('*', 'corsHandler', [], {
+      origin: true,
+      methods: ['GET', 'POST', 'DELETE']
+    }),
     route.GLOBAL('*', 'authHandler', [
       validate.headers({
         authorization: value => !! value?.match(/^Bearer .+$/) || new Error('Invalid bearer token!')
@@ -34,6 +42,12 @@ export class AuthRouter implements OnInjection {
 
     this.auth = services.auth;
     this.firestore = services.firestore;
+
+  }
+
+  corsHandler(req: Request, res: Response, next: NextFunction) {
+
+    next();
 
   }
 
