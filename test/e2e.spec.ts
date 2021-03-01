@@ -255,7 +255,7 @@ describe('E2E', function() {
     // Send signal (should fail)
     const error = await getError(backend.post('session/signal', {
       headers: { 'Authorization': `Bearer ${ramtinToken}` },
-      json: { session: sessionId, signal: 'start' }
+      json: { session: sessionId, signal: 'start', signalTime: Date.now() }
     }));
 
     expect((<any>error).code).to.equal('VALIDATION_FAILED');
@@ -295,22 +295,22 @@ describe('E2E', function() {
     // Send signal on session
     await backend.post('session/signal', {
       headers: { 'Authorization': `Bearer ${ramtinToken}` },
-      json: { session: sessionId, signal: 'start' }
+      json: { session: sessionId, signal: 'start', signalTime: Date.now() }
     });
 
     await backend.post('session/signal', {
       headers: { 'Authorization': `Bearer ${ramtinToken}` },
-      json: { session: sessionId, signal: 'pause' }
+      json: { session: sessionId, signal: 'pause', signalTime: Date.now() }
     });
 
     await backend.post('session/signal', {
       headers: { 'Authorization': `Bearer ${ramtinToken}` },
-      json: { session: sessionId, signal: 'time:210' }
+      json: { session: sessionId, signal: 'time:210', signalTime: Date.now() }
     });
 
     await backend.post('session/signal', {
       headers: { 'Authorization': `Bearer ${ramtinToken}` },
-      json: { session: sessionId, signal: 'resume' }
+      json: { session: sessionId, signal: 'resume', signalTime: Date.now() }
     });
 
     // Wait for a second
@@ -326,7 +326,7 @@ describe('E2E', function() {
     // End the session
     await backend.post('session/signal', {
       headers: { 'Authorization': `Bearer ${ramtinToken}` },
-      json: { session: sessionId, signal: 'end' }
+      json: { session: sessionId, signal: 'end', signalTime: Date.now() }
     });
 
     // Wait for a second

@@ -261,6 +261,8 @@ interface SessionCreateBody {
 interface SessionSignalBody {
   /** A session signal to send to all members. */
   signal: 'start'|'pause'|'resume'|'stop'|`time:${number}`|'end';
+  /** A timestamp indicating when the signal was sent from the host client (used for measuring delays.) */
+  signalTime: number;
   /** The session ID. */
   session: string;
 }

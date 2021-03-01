@@ -43,6 +43,7 @@ import { SessionDocument } from '@ash-player-server/shared/request-asset-models'
           is.enum(SessionStaticSignal),
           does.match(/^time:\d+$/)
         ),
+        signalTime: should.be.a.non.zero.number,
         session: should.be.a.non.empty.string
       }),
       // Loads the session document at req.assets.session
@@ -77,7 +78,7 @@ export class SessionsRouter implements OnInjection {
 
   async sendSessionSignal(req: SessionSignalRequest, res: Response) {
 
-    await this.firestore.sendSessionSignal(req.body.signal, req.assets);
+    await this.firestore.sendSessionSignal(req.body.signal, req.body.signalTime, req.assets);
     await res.respond(new MessageResponse('Signal was sent to all members in the session.'));
 
   }
@@ -98,6 +99,8 @@ export interface SessionSignalRequest extends SecureRequest<SessionDocument> {
   body: {
     /** A session signal to send to all members. */
     signal: SessionStaticSignal|`time-${number}`;
+    /** A timestamp indicating when the signal was sent from the host client (used for measuring delays.) */
+    signalTime: number;
     /** The session ID. */
     session: string;
   };

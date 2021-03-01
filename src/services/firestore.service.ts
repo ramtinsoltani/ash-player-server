@@ -404,11 +404,15 @@ export class FirestoreService implements OnInit {
 
   }
 
-  public async sendSessionSignal(signal: SessionSignalRequest['body']['signal'], assets: SessionSignalRequest['assets']) {
+  public async sendSessionSignal(
+    signal: SessionSignalRequest['body']['signal'],
+    signalTime: SessionSignalRequest['body']['signalTime'],
+    assets: SessionSignalRequest['assets']
+  ) {
 
     try {
 
-      await this.sessions.doc(assets.session.id).update({ signal });
+      await this.sessions.doc(assets.session.id).update({ signal, signalTime });
 
       if ( signal === 'end' ) await this.sessions.doc(assets.session.id).delete();
 
