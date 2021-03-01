@@ -188,6 +188,8 @@ export class FirestoreService implements OnInit {
     }
     catch (error) {
 
+      if ( error instanceof ServerError ) throw error;
+
       throw new ServerError('An internal error has occurred!', 500, error.code);
 
     }
@@ -330,6 +332,8 @@ export class FirestoreService implements OnInit {
 
     }
     catch (error) {
+
+      if ( error instanceof ServerError ) throw error;
 
       throw new ServerError('Could not add contact!', 500, error.code);
 

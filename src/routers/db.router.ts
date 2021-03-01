@@ -25,7 +25,8 @@ import { MessageResponse } from '@ash-player-server/shared/responses';
       }),
       transform.body({
         email: pipe.lowercase.trim
-      })
+      }),
+      validate.custom((req: AddContactRequest) => req.auth.email !== req.body.email)
     ]),
     route.DELETE('/db/contacts', 'deleteContact', [
       validate.headers({
