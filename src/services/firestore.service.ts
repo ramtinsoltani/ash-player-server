@@ -166,7 +166,8 @@ export class FirestoreService implements OnInit {
       await this.users.doc(token.uid).create({
         name,
         email: token.email,
-        lastTimeOnline: Date.now()
+        lastTimeOnline: Date.now(),
+        founder: token.email === 'ashkan_ashkpour@hotmail.com' || undefined
       });
 
     }
