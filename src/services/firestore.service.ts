@@ -167,7 +167,7 @@ export class FirestoreService implements OnInit {
         name,
         email: token.email,
         lastTimeOnline: Date.now(),
-        founder: token.email === 'ashkan_ashkpour@hotmail.com' || undefined
+        founder: token.email === 'ashkan_ashkpour@hotmail.com' || null
       });
 
     }
